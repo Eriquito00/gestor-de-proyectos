@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #282c34;
+}
+
+section {
+    padding: 25px;
+    max-width: 80%;
+    margin: auto;
+    background-color: #484e5c; /* color temporal hasta que haya proyectos despues este sera el color de los proyectos */
+    border-radius: 15px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: white;
+    text-align: center;
+}
+
+footer {
+    background-color: #161616;
+    padding: 40px;
+    color: white;
+    text-align: center;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
