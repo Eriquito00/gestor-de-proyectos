@@ -27,6 +27,10 @@ input:focus {
     outline: none;
 }
 
+small {
+    color: white;
+}
+
 label, input, button {
     margin: 7.5px;
 }

@@ -1,9 +1,9 @@
 import "./styles/createProject.css"
 export default function CreateProject( { title, description } ) {
   return (
-    <div className="project">
-      <h1>{ title }</h1>
+    <button className="project">
+      <h2>{ title }</h2>
       <p>{ description }</p>
-    </div>
+    </button>
   )
 }

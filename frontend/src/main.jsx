@@ -46,10 +46,17 @@ function crearProyecto(nombre, descripcion) {
     return;
   }
 
+  if (nombre.trim() === '') {
+    alert("El proyecto debe tener un titulo obligatoriamente.")  /* Perfeccionar porque no quiero que sea un alert quiero hacer mi propio popup */
+    return;
+  }
+
+  cerrarMenu();
+
   /* Aqui pillo directamente la informacion recien introducida pero en verdad como tendre que mostrar todos los proyectos
   lo suyo es que cuando este el backend hecho hacer un bucle cojer toda la info de todos los proyectos y mostrarlos todos
   desde la bbdd */
-  arrayProjects.push(<CreateProject title={ nombre } description={ descripcion } />)
+  arrayProjects.push(<CreateProject title={ nombre.trim() } description={ descripcion.trim() } />)
 
   projects.render(
     <StrictMode>
