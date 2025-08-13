@@ -7,10 +7,12 @@ body {
 }
 
 section {
-    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 10px;
     max-width: 80%;
     margin: auto;
-    background-color: #484e5c; /* color temporal hasta que haya proyectos despues este sera el color de los proyectos */
+    background-color: blue; /* color temporal hasta que haya proyectos despues este sera el color de los proyectos */
     border-radius: 15px;
 }
 

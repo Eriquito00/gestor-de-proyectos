@@ -1,0 +1,10 @@
+.project {
+    background-color: #484e5c;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+h1, p {
+    color: white;
+}
