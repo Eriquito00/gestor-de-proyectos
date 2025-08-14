@@ -4,6 +4,10 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: #282c34;
+    min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 section {
@@ -11,9 +15,8 @@ section {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     padding: 10px;
-    max-width: 80%;
+    width: 80%;
     margin: auto;
-    background-color: blue; /* color temporal hasta que haya proyectos despues este sera el color de los proyectos */
     border-radius: 15px;
 }
 
@@ -29,8 +32,7 @@ footer {
     padding: 20px 0;
     color: white;
     text-align: center;
-    bottom: 0;
-    position: fixed;
     width: 100%;
     justify-content: center;
+    margin-top: 50px;
 }

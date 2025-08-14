@@ -1,3 +1,13 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
 .create_project_menu {
     display: flex;
     flex-direction: column;
@@ -9,33 +19,36 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px black;
+    z-index: 20;
 }
 
-input {
+.input_create_project_menu {
     background-color: #3c4043;
     border: none;
     border-radius: 5px;
     padding: 10px;
 }
 
-label, input {
+.label_create_project_menu, .input_create_project_menu {
     color: white;
     font-size: 20px;
 }
 
-input:focus {
+.input_create_project_menu:focus {
     outline: none;
 }
 
-small {
+.small_create_project_menu {
     color: white;
 }
 
-label, input, button {
+.label_create_project_menu, .input_create_project_menu, .button_create_project_menu {
     margin: 7.5px;
 }
 
-div {
-    display: flex;
-    flex-direction: row;
+.buttons_create_project_menu {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 20px;
 }

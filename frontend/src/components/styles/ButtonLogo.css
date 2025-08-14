@@ -1,0 +1,24 @@
+.button_logo {
+    display: flex;
+    margin: 20px;
+    border-radius: 10px;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: auto;
+    align-self: flex-end;
+    height: 35px;
+    width: 35px;
+    transition: 0.5s;
+}
+
+.button_logo:hover {
+    transform: scale(1.4);
+}
+
+.logo {
+    width: 25px;
+    height: 25px;
+    transition: 0.5s;
+}
