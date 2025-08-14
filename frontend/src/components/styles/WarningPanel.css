@@ -1,0 +1,53 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.warning_panel {
+    position: fixed;
+    color: white;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #202020;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 20;
+}
+
+.h2_warning_panel {
+    font-size: 2em;
+    text-align: center;
+}
+
+.p_warning_panel {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.button_warning_panel {
+    font-size: 1.25em;
+    border-radius: 10px;
+    padding: 15px 20px;
+    background-color: #484e5c;
+    color: white;
+    border: none;
+    margin: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.button_warning_panel:hover {
+    background-color: #5a6070;
+    box-shadow: white 0px 0px 5px;
+    transform: scale(1.25);
+}
+
+.options_warning_panel {
+    text-align: center;
+}
