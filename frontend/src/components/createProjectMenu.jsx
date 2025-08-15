@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import ButtonMenu from "./ButtonMenu";
 
@@ -8,7 +8,7 @@ import iconoCreate from '../assets/plus.svg';
 import iconoClose from '../assets/x.svg';
 
 
-export default function CreateProjectMenu( { title, description, onClose, onCreate }) {
+export default function CreateProjectMenu( { title, description, onClose, onCreate, buttonL, buttonR }) {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
 
@@ -38,8 +38,8 @@ export default function CreateProjectMenu( { title, description, onClose, onCrea
           }} />
           <small className='small_create_project_menu'>{projectDescription.length} / {maxDescriptionLength}</small>
           <div className='buttons_create_project_menu'>
-            <ButtonMenu msg='Crear' icon={ iconoCreate } onClick={ mostrarDatos } />
-            <ButtonMenu msg='Cerrar' icon={ iconoClose } onClick={ onClose } />
+            <ButtonMenu msg={ buttonL } icon={ iconoCreate } onClick={ mostrarDatos } />
+            <ButtonMenu msg={ buttonR } icon={ iconoClose } onClick={ onClose } />
           </div>
       </div>
     </>

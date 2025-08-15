@@ -22,3 +22,11 @@
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.buttons_project_info {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    margin-top: auto;
+    margin: 10px;
+}
