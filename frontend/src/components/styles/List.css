@@ -1,0 +1,22 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    background-color: #161616;
+    max-width: calc(25% - 15px);
+    height: 100%;
+    flex: 0 0 25vw;
+    border-radius: 10px;
+}
+
+.h2_list {
+    color: white;
+    text-align: center;
+}
+
+.section_list {
+    flex: 1;
+    background-color: #484e5c;
+    margin: 15px;
+    padding: 10px;
+    border-radius: 10px;
+}
