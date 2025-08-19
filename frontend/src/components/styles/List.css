@@ -14,9 +14,18 @@
 }
 
 .section_list {
-    flex: 1;
-    background-color: #484e5c;
-    margin: 15px;
+    background-color: #484e5c; /* finalmente no tendra color es temporal y no tendra margen de los lados o alturas con las tareas */
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
     padding: 10px;
     border-radius: 10px;
+}
+
+.buttons_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-right: 7.5px;
+    margin-bottom: 10px;
 }

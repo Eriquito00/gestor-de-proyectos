@@ -24,6 +24,7 @@
 }
 
 .buttons_project_info {
+    flex: 1;
     display: flex;
     flex-direction: row;
     align-self: flex-end;

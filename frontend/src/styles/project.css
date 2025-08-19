@@ -8,10 +8,15 @@ body {
     overflow: hidden;
 }
 
+.main_header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
 h1 {
-    font-size: 2em;
-    text-align: center;
-    margin-top: 20px;
+    font-size: 1.5em;
+    justify-content: center;
 }
 
 .main_section {
@@ -22,7 +27,6 @@ h1 {
     padding-left: 10px;
     padding-right: 10px;
     gap: 20px;
-    height: calc(100vh - 80px);
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: auto;
