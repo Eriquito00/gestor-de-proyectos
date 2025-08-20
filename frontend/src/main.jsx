@@ -7,11 +7,8 @@ import plus from './assets/plus.svg';
 
 import {
   abrirMenu,
+  cargarProjectArray
 } from "./utils/projectFunctions.jsx"
-
-import {
-  cargarArray
-} from "./utils/warnsTest.jsx"
 
 const root = createRoot(document.getElementById('root'))
 const projects = createRoot(document.getElementById('projects'))
@@ -20,7 +17,7 @@ export const warnings = createRoot(document.getElementById('warnings'))
 
 let arrayProjects = [];
 
-cargarArray(arrayProjects, projects, root, warnings);
+cargarProjectArray(arrayProjects, projects, root, warnings);
 
 footer.render (
   <StrictMode>

@@ -1,15 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import List from "./components/List.jsx";
-
 import {
-  warning,
-  cerrarMenu
-} from "./utils/warnsTest.jsx";
-
-import {
-  createList
+  abrirMenu
 } from "./utils/listFunctions.jsx"
 
 import ButtonMenu from './components/ButtonMenu.jsx';
@@ -21,34 +14,19 @@ const header = createRoot(document.getElementById('header'))
 const lists = createRoot(document.getElementById('lists'))
 const warnings = createRoot(document.getElementById('warnings'))
 
+const listsArray = [];
+
+const projectTitle = new URLSearchParams(window.location.search).get("name");
+
 header.render(
   <StrictMode>
     <div className='main_header'>
-      <h1>"Nombre del proyecto"</h1>
+      <h1>{projectTitle}</h1>
       <ButtonMenu 
         msg={ "Crear Lista" }
         icon={ plus }
-        onClick={() => createList(root)}
+        onClick={() => abrirMenu(listsArray, root, warnings, lists)}
       />
     </div>
-  </StrictMode>
-)
-
-lists.render(
-  <StrictMode>
-    <>
-      <List
-        name={"Test List1"}
-        onEdit={ "" }
-        onDelete={() => warning(
-          "Eliminar lista",
-          "¿Estás seguro de que quieres eliminar la lista ?",
-          true,
-          () => cerrarMenu(warnings),
-          () => cerrarMenu(warnings),
-          warnings
-          ) }
-      />
-    </>
   </StrictMode>
 )

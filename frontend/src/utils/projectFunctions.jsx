@@ -1,12 +1,17 @@
 import { StrictMode } from 'react';
+
 import ProjectMenu from "../components/CreateEditMenu.jsx";
+import ProjectInfo from "../components/ProjectInfo.jsx";
+
+import trash from "../assets/trash.svg";
+import pencil from "../assets/pencil.svg";
 
 import {
   warning,
-  cargarArray,
   compruebaTitulo,
   compruebaExistente,
-  cerrarMenu
+  cerrarMenu,
+  projectName
 } from "./warnsTest.jsx"
 
 export function abrirMenu(root, arrayProjects, warnings, projects) {
@@ -56,7 +61,7 @@ export function crearProyecto(nombre, descripcion, root, arrayProjects, warnings
     return;
   }
 
-  if (!compruebaTitulo(nombre, root, warnings) || !compruebaExistente(nombre, arrayProjects, warnings)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", nombre, root, warnings) || !compruebaExistente("Proyecto existente",  `Ya existe un proyecto con el titulo '${nombre.trim()}' elige otro.`, nombre, arrayProjects, warnings)) return;
 
   cerrarMenu(root);
 
@@ -64,7 +69,32 @@ export function crearProyecto(nombre, descripcion, root, arrayProjects, warnings
     title: nombre.trim(),
     description: descripcion.trim()
   })
-  cargarArray(arrayProjects, projects, root, warnings);
+  cargarProjectArray(arrayProjects, projects, root, warnings);
+}
+
+export function cargarProjectArray(array, projects, root, warnings) {
+  projects.render(
+    <StrictMode>
+      {array.map((item, index) => (
+        <ProjectInfo
+          key={index}
+          title={item.title}
+          description={item.description}
+          onClick={() => projectName(item.title)}
+          imgTrash={trash}
+          imgEdit={pencil}
+          onClickTrash={() => warning(
+            "Eliminar proyecto", 
+            "¿Estas seguro que quieres eliminar el proyecto '" + item.title + "'?", 
+            true, 
+            () => cerrarMenu(warnings), 
+            () => eliminarProyecto(array, item.title, projects, warnings, root),
+            warnings)}
+          onClickEdit={() => editMenu(item.title, item.description, root, array, warnings, projects)}
+        />
+      ))}
+    </StrictMode>
+  )
 }
 
 export function eliminarProyecto(array, nombre, projects, warnings, root) {
@@ -76,13 +106,13 @@ export function eliminarProyecto(array, nombre, projects, warnings, root) {
       break;
     }
   }
-  cargarArray(array, projects, root, warnings);
+  cargarProjectArray(array, projects, root, warnings);
 }
 
 export function actualizarProyecto(titulo, descripcion, tituloAntiguo, root, arrayProjects, warnings, projects) {
   cerrarMenu(root);
 
-  if (!compruebaTitulo(titulo, root, warnings) || !compruebaExistente(titulo, arrayProjects, warnings, tituloAntiguo)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", titulo, root, warnings) || !compruebaExistente("Proyecto existente", `Ya existe un proyecto con el titulo '${titulo.trim()}' elige otro.` , titulo, arrayProjects, warnings, tituloAntiguo)) return;
 
   for (let i = 0; i < arrayProjects.length; i++) {
     if (arrayProjects[i].title === tituloAntiguo) {
@@ -93,5 +123,5 @@ export function actualizarProyecto(titulo, descripcion, tituloAntiguo, root, arr
       break;
     }
   }
-  cargarArray(arrayProjects, projects, root, warnings);
+  cargarProjectArray(arrayProjects, projects, root, warnings);
 }
