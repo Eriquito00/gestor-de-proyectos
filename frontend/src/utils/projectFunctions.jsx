@@ -65,6 +65,8 @@ export function crearProyecto(nombre, descripcion, root, arrayProjects, warnings
 
   cerrarMenu(root);
 
+  /* llamar a la funcion que crea el proyecto en la bbdd */
+
   arrayProjects.push({
     title: nombre.trim(),
     description: descripcion.trim()
@@ -102,6 +104,7 @@ export function eliminarProyecto(array, nombre, projects, warnings, root) {
 
   for (let i = 0; i < array.length; i++){
     if (array[i].title === nombre) {
+      /* llamar a la funcion que elimina el proyecto de la bbdd */
       array.splice(i, 1);
       break;
     }
@@ -116,6 +119,7 @@ export function actualizarProyecto(titulo, descripcion, tituloAntiguo, root, arr
 
   for (let i = 0; i < arrayProjects.length; i++) {
     if (arrayProjects[i].title === tituloAntiguo) {
+      /* llamar a la funcion que actualiza el proyecto en la bbdd */
       arrayProjects[i] = {
         title: titulo.trim(),
         description: descripcion.trim()

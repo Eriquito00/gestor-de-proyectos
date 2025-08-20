@@ -56,6 +56,8 @@ export function crearLista(nombre, listsArray, root, warnings, lists) {
 
   cerrarMenu(root);
 
+  /* llamar a la funcion que envia el nombre de la lista a la bbdd */
+
   listsArray.push({
     title: nombre.trim()
   })
@@ -86,30 +88,32 @@ export function cargarListArray (array, root, lists, warnings) {
 }
 
 export function eliminarLista(array, titulo, warnings, lists) {
-    cerrarMenu(warnings);
+  cerrarMenu(warnings);
 
-    for (let i = 0; i < array.length; i++){
-        if (array[i].title === titulo) {
-            array.splice(i, 1);
-            break;
-        }
+  for (let i = 0; i < array.length; i++){
+    if (array[i].title === titulo) {
+      /* llamar a la funcion que elimina la lista de la bbdd */
+      array.splice(i, 1);
+      break;
     }
+  }
 
-    cargarListArray(array, root, lists, warnings)
+  cargarListArray(array, root, lists, warnings)
 }
 
 export function actualizarLista(titulo, tituloAntiguo, root, listsArray, warnings, lists) {
-    cerrarMenu(root);
+  cerrarMenu(root);
 
-    if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, root, warnings) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${titulo.trim()}' elige otro.` , titulo, listsArray, warnings, tituloAntiguo)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, root, warnings) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${titulo.trim()}' elige otro.` , titulo, listsArray, warnings, tituloAntiguo)) return;
 
-    for (let i = 0; i < listsArray.length; i++) {
-        if (listsArray[i].title === tituloAntiguo) {
-            listsArray[i] = {
-                title: titulo.trim()
-            }
-            break;
-        }
+  for (let i = 0; i < listsArray.length; i++) {
+    if (listsArray[i].title === tituloAntiguo) {
+      /* llamar a la funcion que actualiza la lista en la bbdd */
+      listsArray[i] = {
+          title: titulo.trim()
+      }
+      break;
     }
-    cargarListArray(listsArray, root, lists, warnings)
+  }
+  cargarListArray(listsArray, root, lists, warnings)
 }
