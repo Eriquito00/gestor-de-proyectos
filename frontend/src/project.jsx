@@ -1,8 +1,9 @@
-import { StrictMode } from 'react'
+import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import {
-  abrirMenu
+  abrirMenu,
+  cargarListArray
 } from "./utils/listFunctions.jsx"
 
 import ButtonMenu from './components/ButtonMenu.jsx';
@@ -14,19 +15,29 @@ const header = createRoot(document.getElementById('header'))
 const lists = createRoot(document.getElementById('lists'))
 const warnings = createRoot(document.getElementById('warnings'))
 
-const listsArray = [];
-
 const projectTitle = new URLSearchParams(window.location.search).get("name");
 
-header.render(
-  <StrictMode>
-    <div className='main_header'>
-      <h1>{projectTitle}</h1>
-      <ButtonMenu 
-        msg={ "Crear Lista" }
-        icon={ plus }
-        onClick={() => abrirMenu(listsArray, root, warnings, lists)}
-      />
-    </div>
-  </StrictMode>
-)
+function Project(){
+  const [listsArray, setListsArray] = useState([
+    { title: "Pendiente", tasks: [] },
+    { title: "En proceso", tasks: [] },
+    { title: "Hecho", tasks: [] }
+  ])
+
+  cargarListArray(listsArray, root, lists, warnings);
+
+  return (
+    <StrictMode>
+      <div className='main_header'>
+        <h1>{projectTitle}</h1>
+        <ButtonMenu 
+          msg={ "Crear Lista" }
+          icon={ plus }
+          onClick={() => abrirMenu(listsArray, root, warnings, lists)}
+        />
+      </div>
+    </StrictMode>
+  )
+}
+
+header.render(<Project />)

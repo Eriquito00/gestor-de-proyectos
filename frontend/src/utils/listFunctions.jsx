@@ -59,7 +59,8 @@ export function crearLista(nombre, listsArray, root, warnings, lists) {
   /* llamar a la funcion que envia el nombre de la lista a la bbdd */
 
   listsArray.push({
-    title: nombre.trim()
+    title: nombre.trim(),
+    tasks: []
   })
 
   cargarListArray(listsArray, root, lists, warnings)
@@ -72,6 +73,7 @@ export function cargarListArray (array, root, lists, warnings) {
             <List
                 key={index}
                 name={item.title}
+                tasks={item.tasks}
                 onEdit={() => editMenu(item.title, root, array, warnings, lists)}
                 onDelete={() => warning(
                 "Eliminar lista",
@@ -110,7 +112,8 @@ export function actualizarLista(titulo, tituloAntiguo, root, listsArray, warning
     if (listsArray[i].title === tituloAntiguo) {
       /* llamar a la funcion que actualiza la lista en la bbdd */
       listsArray[i] = {
-          title: titulo.trim()
+          title: titulo.trim(),
+          tasks: listsArray[i].tasks
       }
       break;
     }
