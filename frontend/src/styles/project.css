@@ -5,7 +5,7 @@ body {
     padding: 0;
     background-color: #282c34;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .main_header {
@@ -20,15 +20,26 @@ h1 {
 }
 
 .main_section {
-    flex: 1;
-    display: flex;
-    grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
-    width: calc(100% - 20px);
-    padding-left: 10px;
-    padding-right: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc(25% - 15px);
+    padding: 10px;
     gap: 20px;
+    min-height: calc(100vh - 130px);
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: auto;
     scrollbar-color: white transparent;
+}
+
+@media (max-width: 1000px) {
+    .main_section {
+        grid-auto-columns: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 600px) {
+    .main_section {
+        grid-auto-columns: calc(100%);
+    }
 }

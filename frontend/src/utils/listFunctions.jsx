@@ -10,6 +10,12 @@ import {
     compruebaTitulo
 } from "./warnsTest.jsx"
 
+import {
+  abrirMenuTasks,
+  editMenuTasks,
+  deleteTask
+} from "./taskFunctions.jsx"
+
 export function abrirMenu (listsArray, root, warnings, lists) {
     root.render(
         <StrictMode>
@@ -69,22 +75,31 @@ export function crearLista(nombre, listsArray, root, warnings, lists) {
 export function cargarListArray (array, root, lists, warnings) {
   lists.render(
     <StrictMode>
-        {array.map((item, index) => 
-            <List
-                key={index}
-                name={item.title}
-                tasks={item.tasks}
-                onEdit={() => editMenu(item.title, root, array, warnings, lists)}
-                onDelete={() => warning(
-                "Eliminar lista",
-                "¿Estás seguro de que quieres eliminar la lista?",
-                true,
-                () => cerrarMenu(warnings),
-                () => eliminarLista(array, item.title, warnings, lists),
-                warnings
-                )}
-            />
-        )}
+      {array.map((item, index) => 
+        <List
+          key={index}
+          name={item.title}
+          tasks={item.tasks}
+          onCreate={() => abrirMenuTasks(array, index, root, warnings, lists)}
+          onEdit={() => editMenu(item.title, root, array, warnings, lists)}
+          onDelete={() => warning(
+          "Eliminar lista",
+          "¿Estás seguro de que quieres eliminar la lista?",
+          true,
+          () => cerrarMenu(warnings),
+          () => eliminarLista(array, item.title, warnings, lists),
+          warnings)}
+          onEditTask={(indexTask) => editMenuTasks(array, index, indexTask, root, warnings, lists)}
+          onChangeTask={""}
+          onDeleteTask={() => warning(
+          "Eliminar tarea",
+          "¿Estás seguro de que quieres eliminar la tarea?",
+          true,
+          () => cerrarMenu(warnings),
+          (indexTask) => deleteTask(array, index, indexTask, root, lists, warnings),
+          warnings)}
+        />
+      )}
     </StrictMode>
   )
 }
@@ -94,7 +109,9 @@ export function eliminarLista(array, titulo, warnings, lists) {
 
   for (let i = 0; i < array.length; i++){
     if (array[i].title === titulo) {
+
       /* llamar a la funcion que elimina la lista de la bbdd */
+
       array.splice(i, 1);
       break;
     }
@@ -110,7 +127,9 @@ export function actualizarLista(titulo, tituloAntiguo, root, listsArray, warning
 
   for (let i = 0; i < listsArray.length; i++) {
     if (listsArray[i].title === tituloAntiguo) {
+
       /* llamar a la funcion que actualiza la lista en la bbdd */
+
       listsArray[i] = {
           title: titulo.trim(),
           tasks: listsArray[i].tasks
