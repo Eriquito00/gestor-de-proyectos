@@ -1,4 +1,5 @@
 import { StrictMode } from 'react';
+import { DragDropContext } from "@hello-pangea/dnd";
 
 import Menu from "../components/CreateEditMenu.jsx"
 import List from "../components/List.jsx"
@@ -73,33 +74,61 @@ export function crearLista(nombre, listsArray, root, warnings, lists) {
 }
 
 export function cargarListArray (array, root, lists, warnings) {
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const { source, destination } = result;
+
+    const updated = array.map(list => ({
+      ...list,
+      tasks: [...list.tasks]
+    }));
+
+    if (source.droppableId === destination.droppableId) {
+      const listIndex = parseInt(source.droppableId);
+      const [moved] = updated[listIndex].tasks.splice(source.index, 1);
+      updated[listIndex].tasks.splice(destination.index, 0, moved);
+    } else {
+      const sourceListIndex = parseInt(source.droppableId);
+      const destListIndex = parseInt(destination.droppableId);
+      const [moved] = updated[sourceListIndex].tasks.splice(source.index, 1);
+      updated[destListIndex].tasks.splice(destination.index, 0, moved);
+    }
+
+    cargarListArray(updated, root, lists, warnings);
+  };
+
   lists.render(
     <StrictMode>
-      {array.map((item, index) => 
-        <List
-          key={index}
-          name={item.title}
-          tasks={item.tasks}
-          onCreate={() => abrirMenuTasks(array, index, root, warnings, lists)}
-          onEdit={() => editMenu(item.title, root, array, warnings, lists)}
-          onDelete={() => warning(
-          "Eliminar lista",
-          "¿Estás seguro de que quieres eliminar la lista?",
-          true,
-          () => cerrarMenu(warnings),
-          () => eliminarLista(array, item.title, warnings, lists),
-          warnings)}
-          onEditTask={(indexTask) => editMenuTasks(array, index, indexTask, root, warnings, lists)}
-          onChangeTask={""}
-          onDeleteTask={() => warning(
-          "Eliminar tarea",
-          "¿Estás seguro de que quieres eliminar la tarea?",
-          true,
-          () => cerrarMenu(warnings),
-          (indexTask) => deleteTask(array, index, indexTask, root, lists, warnings),
-          warnings)}
-        />
-      )}
+      <DragDropContext onDragEnd={onDragEnd}>
+        {array.map((item, index) => 
+          <List
+            key={index}
+            droppableId={String(index)}
+            name={item.title}
+            tasks={item.tasks}
+            onCreate={() => abrirMenuTasks(array, index, root, warnings, lists)}
+            onEdit={() => editMenu(item.title, root, array, warnings, lists)}
+            onDelete={() => warning(
+              "Eliminar lista",
+              "¿Estás seguro de que quieres eliminar la lista?",
+              true,
+              () => cerrarMenu(warnings),
+              () => eliminarLista(array, item.title, warnings, lists),
+              warnings
+            )}
+            onEditTask={(indexTask) => editMenuTasks(array, index, indexTask, root, warnings, lists)}
+            onDeleteTask={(indexTask) => warning(
+              "Eliminar tarea",
+              "¿Estás seguro de que quieres eliminar la tarea?",
+              true,
+              () => cerrarMenu(warnings),
+              () => deleteTask(array, index, indexTask, root, lists, warnings),
+              warnings
+            )}
+          />
+        )}
+      </DragDropContext>
     </StrictMode>
   )
 }

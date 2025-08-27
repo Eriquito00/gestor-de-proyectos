@@ -3,12 +3,10 @@ import "./styles/Task.css"
 import MenuButtons from "./MenuButtons.jsx"
 
 import trash from "../assets/trash.svg"
-import change from "../assets/change.svg"
 import pencil from "../assets/pencil.svg"
 
-export default function Task({ title, description, onEdit, onChangeList, onDelete }) {
+export default function Task({ title, description, onEdit, onDelete }) {
   const handleEditTask = () => onEdit();
-  const handleChangeList = () => onChangeList();
   const handleDeleteTask = () => onDelete();
 
   return (
@@ -20,7 +18,6 @@ export default function Task({ title, description, onEdit, onChangeList, onDelet
         direction="row"
         MenuButtons={[
           { logo: trash, color: "white", onClick: handleDeleteTask },
-          { logo: change, color: "white", onClick: handleChangeList },
           { logo: pencil, color: "white", onClick: handleEditTask }
         ]}
       />

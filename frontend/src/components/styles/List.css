@@ -30,5 +30,15 @@
 }
 
 .section_list {
-    margin: 15px;
+    margin: 10px;
+    min-height: 100px;
+    border-radius: 8px;
+    padding: 5px;
+    background: transparent;
+    transition: 0.5s;
+}
+
+.section_list.dragging-over {
+    background: white;
+    opacity: 0.25;
 }

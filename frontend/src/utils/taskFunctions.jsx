@@ -65,7 +65,7 @@ export function addTask(listsArray, index, title, description, root, warnings, l
 
   /* enviar la info de la nueva tarea a una funcion del backend para introducirla a la bbdd */
 
-  const newTask = { title: title, description: description }
+  const newTask = { id: Date.now(), title: title, description: description }
   listsArray[index].tasks.push(newTask);
 
   cerrarMenu(lists)
