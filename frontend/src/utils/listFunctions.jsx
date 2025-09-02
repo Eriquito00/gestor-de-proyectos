@@ -1,140 +1,65 @@
 import { StrictMode } from 'react';
-import { DragDropContext } from "@hello-pangea/dnd";
+import { v4 as uuidv4 } from "uuid";
 
 import Menu from "../components/CreateEditMenu.jsx"
-import List from "../components/List.jsx"
 
 import {
     warning,
-    cerrarMenu,
     compruebaExistente,
     compruebaTitulo
 } from "./warnsTest.jsx"
 
-import {
-  abrirMenuTasks,
-  editMenuTasks,
-  deleteTask
-} from "./taskFunctions.jsx"
-
-export function abrirMenu (listsArray, root, warnings, lists) {
-    root.render(
-        <StrictMode>
-            <Menu
-                create={true}
-                msgTitle={"Nombre de la lista"}
-                titleLenght={15}
-                onCreate={(title) => crearLista(title, listsArray, root, warnings, lists)}
-                onClose={() => cerrarMenu(root)}
-                buttonL={"Crear"}
-                buttonR={"Cancelar"}
-                withDescription={false}
-            />
-        </StrictMode>
-    )
-}
-
-export function editMenu(titulo, root, listsArray, warnings, lists) {
-  root.render(
-    <StrictMode>
-      <Menu 
-        create={false}
-        msgTitle={`Introduce el nuevo titulo para la lista '${titulo}'`}
-        oldTitle={titulo}
-        titleLenght={15}
-        onCreate={(newTitle) => actualizarLista(newTitle, titulo, root, listsArray, warnings, lists)}
-        onClose={() => cerrarMenu(root)}
-        buttonL="Actualizar"
-        buttonR="Cancelar"
-        withDescription={false}
-      />
-    </StrictMode>
+export function abrirMenu (arrayListsTasks, setArrayListsTasks, setMenu, setWarning) {
+  setMenu(
+    <Menu
+      create={true}
+      msgTitle={"Nombre de la lista"}
+      titleLenght={15}
+      onCreate={(title) => crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, setWarning)}
+      onClose={() => setMenu(null)}
+      buttonL={"Crear"}
+      buttonR={"Cancelar"}
+      withDescription={false}
+    />
   )
 }
 
-export function crearLista(nombre, listsArray, root, warnings, lists) {
-  if (listsArray.length >= 8) {
-    warning("Maximo de listas", "No puedes crear más de 8 listas en un proyecto.", false, () => cerrarMenu(warnings), null, warnings);
-    cerrarMenu(root);
+export function editMenu(titulo, setMenu, array, setWarning) {
+  setMenu(
+    <Menu 
+      create={false}
+      msgTitle={`Introduce el nuevo titulo para la lista '${titulo}'`}
+      oldTitle={titulo}
+      titleLenght={15}
+      onCreate={(newTitle) => actualizarLista(newTitle, titulo, array, setMenu, setWarning)}
+      onClose={() => setMenu(null)}
+      buttonL="Actualizar"
+      buttonR="Cancelar"
+      withDescription={false}
+    />
+  )
+}
+
+export function crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, setWarning) {
+  if (arrayListsTasks.length >= 8) {
+    warning("Maximo de proyectos", "No puedes crear más de 12 proyectos", false, () => setWarning(null), null, setWarning);
+    setMenu(null);
     return;
   }
 
-  if (!compruebaTitulo("Campo obligatorio", "El titulo de la lista no puede estar vacio", nombre, root, warnings) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${nombre.trim()}' elige otro.`, nombre, listsArray, warnings)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El titulo de la lista no puede estar vacio", title, setMenu, setWarning) || !compruebaExistente("Lista existente",  `Ya existe una lista con el titulo '${title.trim()}' elige otro.`, title, arrayListsTasks, setWarning)) return;
 
-  cerrarMenu(root);
+  setMenu(null);
 
   /* llamar a la funcion que envia el nombre de la lista a la bbdd */
 
-  listsArray.push({
-    title: nombre.trim(),
-    tasks: []
-  })
+  const newList = { id: uuidv4(), title: title.trim(), tasks: [] }
 
-  cargarListArray(listsArray, root, lists, warnings)
+  setArrayListsTasks([...arrayListsTasks, newList]);
 }
 
-export function cargarListArray (array, root, lists, warnings) {
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-
-    const { source, destination } = result;
-
-    const updated = array.map(list => ({
-      ...list,
-      tasks: [...list.tasks]
-    }));
-
-    if (source.droppableId === destination.droppableId) {
-      const listIndex = parseInt(source.droppableId);
-      const [moved] = updated[listIndex].tasks.splice(source.index, 1);
-      updated[listIndex].tasks.splice(destination.index, 0, moved);
-    } else {
-      const sourceListIndex = parseInt(source.droppableId);
-      const destListIndex = parseInt(destination.droppableId);
-      const [moved] = updated[sourceListIndex].tasks.splice(source.index, 1);
-      updated[destListIndex].tasks.splice(destination.index, 0, moved);
-    }
-
-    cargarListArray(updated, root, lists, warnings);
-  };
-
-  lists.render(
-    <StrictMode>
-      <DragDropContext onDragEnd={onDragEnd}>
-        {array.map((item, index) => 
-          <List
-            key={index}
-            droppableId={String(index)}
-            name={item.title}
-            tasks={item.tasks}
-            onCreate={() => abrirMenuTasks(array, index, root, warnings, lists)}
-            onEdit={() => editMenu(item.title, root, array, warnings, lists)}
-            onDelete={() => warning(
-              "Eliminar lista",
-              "¿Estás seguro de que quieres eliminar la lista?",
-              true,
-              () => cerrarMenu(warnings),
-              () => eliminarLista(array, item.title, warnings, lists),
-              warnings
-            )}
-            onEditTask={(indexTask) => editMenuTasks(array, index, indexTask, root, warnings, lists)}
-            onDeleteTask={(indexTask) => warning(
-              "Eliminar tarea",
-              "¿Estás seguro de que quieres eliminar la tarea?",
-              true,
-              () => cerrarMenu(warnings),
-              () => deleteTask(array, index, indexTask, root, lists, warnings),
-              warnings
-            )}
-          />
-        )}
-      </DragDropContext>
-    </StrictMode>
-  )
-}
-
-export function eliminarLista(array, titulo, warnings, lists) {
-  cerrarMenu(warnings);
+export function eliminarLista(array, titulo, setWarning) {
+  setWarning(null);
 
   for (let i = 0; i < array.length; i++){
     if (array[i].title === titulo) {
@@ -149,22 +74,21 @@ export function eliminarLista(array, titulo, warnings, lists) {
   cargarListArray(array, root, lists, warnings)
 }
 
-export function actualizarLista(titulo, tituloAntiguo, root, listsArray, warnings, lists) {
-  cerrarMenu(root);
+export function actualizarLista(titulo, tituloAntiguo, array, setMenu, setWarning) {
+  setMenu(null);
 
-  if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, root, warnings) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${titulo.trim()}' elige otro.` , titulo, listsArray, warnings, tituloAntiguo)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, setMenu, setWarning) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${titulo.trim()}' elige otro.` , titulo, array, setWarning, tituloAntiguo)) return;
 
-  for (let i = 0; i < listsArray.length; i++) {
-    if (listsArray[i].title === tituloAntiguo) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].title === tituloAntiguo) {
 
       /* llamar a la funcion que actualiza la lista en la bbdd */
 
-      listsArray[i] = {
-          title: titulo.trim(),
-          tasks: listsArray[i].tasks
+      array[i] = {
+        title: titulo.trim(),
+        tasks: array[i].tasks
       }
       break;
     }
   }
-  cargarListArray(listsArray, root, lists, warnings)
 }

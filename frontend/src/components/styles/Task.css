@@ -8,8 +8,16 @@
     white-space: normal;
 }
 
+.task_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+}
+
 .task_h2, .task_p {
     margin: 5px;
+    color: white;
 }
 
 .task_h2 {

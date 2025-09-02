@@ -22,7 +22,7 @@ export default function CreateProjectMenu( { create, msgTitle, msgDescription, o
       <div className="overlay"></div>
       <div className="create_project_menu">
           <label className='label_create_project_menu'> { msgTitle }:</label>
-          <input className='input_create_project_menu' type="text" value={finalTitle} onChange={e => {
+          <input className='input_create_project_menu' autoFocus type="text" value={finalTitle} onChange={e => {
             if (e.target.value.length <= titleLenght) {
               setProjectName(e.target.value);
             }

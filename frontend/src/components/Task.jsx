@@ -11,16 +11,17 @@ export default function Task({ title, description, onEdit, onDelete }) {
 
   return (
     <div className="task">
-      <h2 className="task_h2">{title}</h2>
+      <div className="task_header">
+        <h2 className="task_h2">{title}</h2>
+        <MenuButtons
+          direction="row"
+          MenuButtons={[
+            { logo: trash, color: "white", onClick: handleDeleteTask },
+            { logo: pencil, color: "white", onClick: handleEditTask }
+          ]}
+        />
+      </div>
       <p className="task_p">{description}</p>
-      
-      <MenuButtons
-        direction="row"
-        MenuButtons={[
-          { logo: trash, color: "white", onClick: handleDeleteTask },
-          { logo: pencil, color: "white", onClick: handleEditTask }
-        ]}
-      />
     </div>
   )
 }

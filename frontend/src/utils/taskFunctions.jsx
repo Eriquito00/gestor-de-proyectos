@@ -1,89 +1,75 @@
-import React, { StrictMode } from "react"
+import { v4 as uuidv4 } from "uuid";
 
 import Menu from "../components/CreateEditMenu.jsx"
 
 import {
   warning,
-  compruebaTitulo,
-  cerrarMenu
+  compruebaTitulo
 } from "./warnsTest.jsx"
 
-import {
-  cargarListArray
-} from "./listFunctions.jsx"
-
-export function abrirMenuTasks (listsArray, index, root, warnings, lists) {
-  root.render(
-    <StrictMode>
-      <Menu
-        create={true}
-        msgTitle={"Nombre de la tarea"}
-        msgDescription={"Descripcion de la tarea"}
-        titleLenght={15}
-        descriptionLenght={150}
-        onCreate={(title, description) => addTask(listsArray, index, title.trim(), description.trim(), root, warnings, lists)}
-        onClose={() => cerrarMenu(root)}
-        buttonL={"Crear"}
-        buttonR={"Cancelar"}
-        withDescription={true}
-      />
-    </StrictMode>
+export function abrirMenuTasks (listsArray, index, setMenu, setWarning) {
+  setMenu(
+    <Menu
+      create={true}
+      msgTitle={"Nombre de la tarea"}
+      msgDescription={"Descripcion de la tarea"}
+      titleLenght={15}
+      descriptionLenght={150}
+      onCreate={(title, description) => addTask(listsArray, index, title.trim(), description.trim(), setMenu, setWarning)}
+      onClose={() => setMenu(null)}
+      buttonL={"Crear"}
+      buttonR={"Cancelar"}
+      withDescription={true}
+    />
   )
 }
 
-export function editMenuTasks (listsArray, index, indexTask, root, warnings, lists) {
-  root.render(
-    <StrictMode>
-      <Menu
-        create={false}
-        msgTitle={"Introduce el nuevo nombre de la tarea"}
-        msgDescription={"Introduce la nueva descripcion de la tarea"}
-        oldTitle={listsArray[index].tasks[indexTask].title}
-        oldDescription={listsArray[index].tasks[indexTask].description}
-        titleLenght={15}
-        descriptionLenght={150}
-        onCreate={(newTitle, newDescripcion) => editTask(listsArray, index, indexTask, newTitle, newDescripcion, root, warnings, lists)}
-        onClose={() => cerrarMenu(root)}
-        buttonL={"Actualizar"}
-        buttonR={"Cancelar"}
-        withDescription={true}
-      />
-    </StrictMode>
+export function editMenuTasks (listsArray, index, indexTask, setMenu, setWarning) {
+  setMenu(
+    <Menu
+      create={false}
+      msgTitle={"Introduce el nuevo nombre de la tarea"}
+      msgDescription={"Introduce la nueva descripcion de la tarea"}
+      oldTitle={listsArray[index].tasks[indexTask].title}
+      oldDescription={listsArray[index].tasks[indexTask].description}
+      titleLenght={15}
+      descriptionLenght={150}
+      onCreate={(newTitle, newDescripcion) => editTask(listsArray, index, indexTask, newTitle, newDescripcion, setMenu, setWarning)}
+      onClose={() => setMenu(null)}
+      buttonL={"Actualizar"}
+      buttonR={"Cancelar"}
+      withDescription={true}
+    />
   )
 }
 
-export function addTask(listsArray, index, title, description, root, warnings, lists) {
+export function addTask(listsArray, index, title, description, setMenu, setWarning) {
   if (listsArray[index].tasks.length >= 25) {
-    warning("Maximo de tareas", "Esta lista ha llegado al maximo de 25 tareas por lista no puedes agregar mas.", false, cerrarMenu(warnings), "", warnings)
-    cerrarMenu(root)
+    warning("Maximo de tareas", "Esta lista ha llegado al maximo de 25 tareas por lista no puedes agregar mas.", false, setWarning(null), "", setWarning)
+    setMenu(null)
     return;
   }
 
-  if (!compruebaTitulo("Campo obligatorio", "El titulo de la tarea no puede estar vacio", title, root, warnings)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El titulo de la tarea no puede estar vacio", title, setMenu, setWarning)) return;
 
-  cerrarMenu(root)
+  setMenu(null)
 
   /* enviar la info de la nueva tarea a una funcion del backend para introducirla a la bbdd */
 
-  const newTask = { id: Date.now(), title: title, description: description }
+  const newTask = { id: uuidv4(), title: title, description: description }
   listsArray[index].tasks.push(newTask);
-
-  cerrarMenu(lists)
-  cargarListArray(listsArray, root, lists, warnings);
 }
 
-export function deleteTask(listsArray, index, indexTask, root, lists, warnings) {
+export function deleteTask(listsArray, index, indexTask, setWarning) {
 
   /* enviar la orden para eliminar a una funcion del backend para borrarla a la bbdd */
 
   listsArray[index].tasks.splice(indexTask, 1);
 
-  cerrarMenu(warnings);
-
-  cargarListArray(listsArray, root, lists, warnings);
+  setWarning(null);
 }
 
-export function editTask(listsArray, index, indexTask, newTitle, newDescription, root, warnings, lists) {
+export function editTask(listsArray, index, indexTask, newTitle, newDescription, setMenu, setWarning) {
 
   /* enviar la orden para eliminar a una funcion del backend para borrarla a la bbdd */
 
@@ -92,6 +78,5 @@ export function editTask(listsArray, index, indexTask, newTitle, newDescription,
   task.title = newTitle;
   task.description = newDescription;
 
-  cerrarMenu(root)
-  cargarListArray(listsArray, root, lists, warnings)
+  setMenu(null)
 }

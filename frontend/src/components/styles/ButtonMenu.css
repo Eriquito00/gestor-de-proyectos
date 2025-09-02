@@ -9,6 +9,7 @@
     color: white;
     cursor: pointer;
     transition: 0.5s;
+    user-select: none;
 }
 
 .button_menu:hover {

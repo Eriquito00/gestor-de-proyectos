@@ -3,7 +3,7 @@
     flex-direction: column;
     background-color: #161616;
     width: 100%;
-    height: 100%;
+    max-height: calc(100vh - 140px);
     flex: 0 0 25vw;
     border-radius: 10px;
 }
@@ -31,14 +31,29 @@
 
 .section_list {
     margin: 10px;
-    min-height: 100px;
+    height: 100vh;
+    max-height: 100%;
     border-radius: 8px;
     padding: 5px;
     background: transparent;
     transition: 0.5s;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .section_list.dragging-over {
     background: white;
     opacity: 0.25;
+}
+
+@media (max-width: 1000px) {
+    .list {
+        max-height: calc(100vh - 200px);
+    }
+}
+
+@media (max-width: 600px) {
+    .list {
+        max-height: calc(100vh - 200px);
+    }
 }

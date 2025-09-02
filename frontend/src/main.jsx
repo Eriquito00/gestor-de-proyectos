@@ -1,30 +1,51 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode, useState } from 'react'
+import ReactDOM from 'react-dom/client'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import ButtonMenu from './components/ButtonMenu.jsx'
+import Home from "./pages/Home.jsx"
+import ProjectView from "./pages/ProjectView.jsx"
 
-import plus from './assets/plus.svg';
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-import {
-  abrirMenu,
-  cargarProjectArray
-} from "./utils/projectFunctions.jsx"
+function App() {
+  const [arrayProjects, setarrayProjects] = useState([]);
+  const [menu, setMenu] = useState(null);
+  const [warning, setWarning] = useState(null);
 
-const root = createRoot(document.getElementById('root'))
-const projects = createRoot(document.getElementById('projects'))
-const footer = createRoot(document.getElementById('footer'))
-export const warnings = createRoot(document.getElementById('warnings'))
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={
+            <Home 
+              arrayProjects={arrayProjects} 
+              setarrayProjects={setarrayProjects}
+              setMenu={setMenu}
+              menu={menu}
+              setWarning={setWarning}
+              warning={warning}
+            />
+          } 
+        />
+        <Route
+          path="/project/:title"
+          element={
+            <ProjectView 
+              setMenu={setMenu}
+              menu={menu}
+              setWarning={setWarning}
+              warning={warning}
+            />
+          }
+        />
+      </Routes>
+    </Router>
+  )
+}
 
-let arrayProjects = [];
-
-cargarProjectArray(arrayProjects, projects, root, warnings);
-
-footer.render (
+root.render(
   <StrictMode>
-    <ButtonMenu 
-      msg="Crear Proyecto" 
-      icon={ plus } 
-      onClick={ () => abrirMenu(root, arrayProjects, warnings, projects) } 
-    />
+    <App />
   </StrictMode>
 )
