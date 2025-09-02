@@ -4,7 +4,7 @@ DROP TABLE projects;
 
 CREATE TABLE projects (
 	project_id		INTEGER,
-	title			VARCHAR(50) NOT NULL UNIQUE,
+	title			VARCHAR(25) NOT NULL UNIQUE,
 	description		VARCHAR(150),
 	CONSTRAINT pk_projects PRIMARY KEY (project_id AUTOINCREMENT)
 );
