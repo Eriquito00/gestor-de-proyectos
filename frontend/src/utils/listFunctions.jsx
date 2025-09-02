@@ -1,11 +1,9 @@
-import { StrictMode } from 'react';
 import { v4 as uuidv4 } from "uuid";
 
 import Menu from "../components/CreateEditMenu.jsx"
 
 import {
     warning,
-    compruebaExistente,
     compruebaTitulo
 } from "./warnsTest.jsx"
 
@@ -24,14 +22,14 @@ export function abrirMenu (arrayListsTasks, setArrayListsTasks, setMenu, setWarn
   )
 }
 
-export function editMenu(titulo, setMenu, array, setWarning) {
+export function editMenu(titulo, id, setMenu, array, setWarning) {
   setMenu(
     <Menu 
       create={false}
       msgTitle={`Introduce el nuevo titulo para la lista '${titulo}'`}
       oldTitle={titulo}
       titleLenght={15}
-      onCreate={(newTitle) => actualizarLista(newTitle, titulo, array, setMenu, setWarning)}
+      onCreate={(newTitle) => actualizarLista(newTitle, id, array, setMenu, setWarning)}
       onClose={() => setMenu(null)}
       buttonL="Actualizar"
       buttonR="Cancelar"
@@ -47,7 +45,7 @@ export function crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, 
     return;
   }
 
-  if (!compruebaTitulo("Campo obligatorio", "El titulo de la lista no puede estar vacio", title, setMenu, setWarning) || !compruebaExistente("Lista existente",  `Ya existe una lista con el titulo '${title.trim()}' elige otro.`, title, arrayListsTasks, setWarning)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El titulo de la lista no puede estar vacio", title, setMenu, setWarning)) return;
 
   setMenu(null);
 
@@ -58,11 +56,11 @@ export function crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, 
   setArrayListsTasks([...arrayListsTasks, newList]);
 }
 
-export function eliminarLista(array, titulo, setWarning) {
+export function eliminarLista(array, id, setWarning) {
   setWarning(null);
 
   for (let i = 0; i < array.length; i++){
-    if (array[i].title === titulo) {
+    if (array[i].id === id) {
 
       /* llamar a la funcion que elimina la lista de la bbdd */
 
@@ -71,16 +69,16 @@ export function eliminarLista(array, titulo, setWarning) {
     }
   }
 
-  cargarListArray(array, root, lists, warnings)
+  setArrayListsTasks([...array]);
 }
 
-export function actualizarLista(titulo, tituloAntiguo, array, setMenu, setWarning) {
+export function actualizarLista(titulo, id, array, setMenu, setWarning) {
   setMenu(null);
 
-  if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, setMenu, setWarning) || !compruebaExistente("Lista existente", `Ya existe una lista con el titulo '${titulo.trim()}' elige otro.` , titulo, array, setWarning, tituloAntiguo)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre de la lista es obligatorio", titulo, setMenu, setWarning)) return;
 
   for (let i = 0; i < array.length; i++) {
-    if (array[i].title === tituloAntiguo) {
+    if (array[i].id === id) {
 
       /* llamar a la funcion que actualiza la lista en la bbdd */
 

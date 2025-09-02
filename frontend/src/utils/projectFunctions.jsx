@@ -1,9 +1,9 @@
 import ProjectMenu from "../components/CreateEditMenu.jsx";
+import { v4 as uuidv4 } from "uuid";
 
 import {
   warning,
-  compruebaTitulo,
-  compruebaExistente,
+  compruebaTitulo
 } from "./warnsTest.jsx"
 
 export function abrirMenu(arrayProjects, setarrayProjects, setMenu, setWarning) {
@@ -23,7 +23,7 @@ export function abrirMenu(arrayProjects, setarrayProjects, setMenu, setWarning) 
   );
 }
 
-export function editMenu(titulo, descripcion, arrayProjects, setMenu, setArrayProjects, setWarning) {
+export function editMenu(titulo, descripcion, id, arrayProjects, setMenu, setArrayProjects, setWarning) {
   setMenu(
     <ProjectMenu 
       create={false}
@@ -33,7 +33,7 @@ export function editMenu(titulo, descripcion, arrayProjects, setMenu, setArrayPr
       oldDescription={descripcion}
       titleLenght={25}
       descriptionLenght={150}
-      onCreate={(newTitle, newDescription) => actualizarProyecto(newTitle, newDescription, titulo, setMenu, arrayProjects, setWarning, setArrayProjects)}
+      onCreate={(newTitle, newDescription) => actualizarProyecto(newTitle, newDescription, id, setMenu, arrayProjects, setWarning, setArrayProjects)}
       onClose={() => setMenu(null)}
       buttonL="Actualizar"
       buttonR="Cancelar"
@@ -49,22 +49,22 @@ export function crearProyecto(nombre, descripcion, arrayProjects, setarrayProjec
     return;
   }
 
-  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", nombre, setMenu, setWarning) || !compruebaExistente("Proyecto existente",  `Ya existe un proyecto con el titulo '${nombre.trim()}' elige otro.`, nombre, arrayProjects, setWarning)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", nombre, setMenu, setWarning)) return;
 
   setMenu(null);
 
   /* llamar a la funcion que crea el proyecto en la bbdd */
 
-  const newProject = { title: nombre.trim(), description: descripcion.trim() }
+  const newProject = { id: uuidv4(), title: nombre.trim(), description: descripcion.trim() }
 
   setarrayProjects([...arrayProjects, newProject]);
 }
 
-export function eliminarProyecto(array, nombre, setArrayProjects, setWarning) {
+export function eliminarProyecto(array, id, setArrayProjects, setWarning) {
   setWarning(null);
 
   for (let i = 0; i < array.length; i++){
-    if (array[i].title === nombre) {
+    if (array[i].id === id) {
       /* llamar a la funcion que elimina el proyecto de la bbdd */
       array.splice(i, 1);
       break;
@@ -74,13 +74,13 @@ export function eliminarProyecto(array, nombre, setArrayProjects, setWarning) {
   setArrayProjects([...array]);
 }
 
-export function actualizarProyecto(titulo, descripcion, tituloAntiguo, setMenu, arrayProjects, setWarning, setArrayProjects) {
+export function actualizarProyecto(titulo, descripcion, id, setMenu, arrayProjects, setWarning, setArrayProjects) {
   setMenu(null);
 
-  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", titulo, setMenu, setWarning) || !compruebaExistente("Proyecto existente", `Ya existe un proyecto con el titulo '${titulo.trim()}' elige otro.` , titulo, arrayProjects, setWarning, tituloAntiguo)) return;
+  if (!compruebaTitulo("Campo obligatorio", "El nombre del proyecto es obligatorio", titulo, setMenu, setWarning)) return;
 
   for (let i = 0; i < arrayProjects.length; i++) {
-    if (arrayProjects[i].title === tituloAntiguo) {
+    if (arrayProjects[i].id === id) {
       /* llamar a la funcion que actualiza el proyecto en la bbdd */
       arrayProjects[i] = {
         title: titulo.trim(),

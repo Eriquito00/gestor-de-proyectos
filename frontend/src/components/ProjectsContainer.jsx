@@ -30,9 +30,9 @@ export default function ProjectsContainer ({arrayProjects, handleOpenProject, se
             "¿Estas seguro que quieres eliminar el proyecto '" + item.title + "'?", 
             true, 
             () => setWarning(null), 
-            () => eliminarProyecto(arrayProjects, item.title, setArrayProjects, setWarning),
+            () => eliminarProyecto(arrayProjects, item.id, setArrayProjects, setWarning),
             setWarning)}
-          onClickEdit={() => editMenu(item.title, item.description, arrayProjects, setMenu, setArrayProjects, setWarning)}
+          onClickEdit={() => editMenu(item.title, item.description, item.id, arrayProjects, setMenu, setArrayProjects, setWarning)}
         />
       ))}
     </section>

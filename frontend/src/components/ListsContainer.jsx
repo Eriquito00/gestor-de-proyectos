@@ -56,14 +56,14 @@ export default function ListsContainer({ array, setArray, setMenu, setWarning })
             name={item.title}
             tasks={item.tasks}
             onCreate={() => abrirMenuTasks(array, index, setMenu, setWarning)}
-            onEdit={() => editMenu(item.title, setMenu, array, setWarning)}
+            onEdit={() => editMenu(item.title, item.id, setMenu, array, setWarning)}
             onDelete={() =>
               warning(
                 "Eliminar lista",
                 `¿Estás seguro de que quieres eliminar la lista '${item.title}'? Tambien se eliminaran todas las tareas.`,
                 true,
                 () => setWarning(null),
-                () => eliminarLista(array, item.title, setWarning),
+                () => eliminarLista(array, item.id, setWarning),
                 setWarning
               )
             }
