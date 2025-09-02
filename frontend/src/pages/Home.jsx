@@ -12,8 +12,8 @@ import plus from '../assets/plus.svg'
 export default function Home({ arrayProjects, setarrayProjects, setMenu, menu, setWarning, warning }) {
   const navigate = useNavigate();
 
-  const handleOpenProject = (title) => {
-    navigate(`/project/${title}`);
+  const handleOpenProject = (id, title) => {
+    navigate(`/project/${id}/${title}`);
   }
 
   return (

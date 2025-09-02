@@ -29,7 +29,7 @@ function App() {
           } 
         />
         <Route
-          path="/project/:title"
+          path="/project/:id/:title"
           element={
             <ProjectView 
               setMenu={setMenu}

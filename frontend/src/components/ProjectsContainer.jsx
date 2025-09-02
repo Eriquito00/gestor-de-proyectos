@@ -22,7 +22,7 @@ export default function ProjectsContainer ({arrayProjects, handleOpenProject, se
           key={index}
           title={item.title}
           description={item.description}
-          onClick={() => handleOpenProject(item.title)}
+          onClick={() => handleOpenProject(item.id, item.title)}
           imgTrash={trash}
           imgEdit={pencil}
           onClickTrash={() => warning(

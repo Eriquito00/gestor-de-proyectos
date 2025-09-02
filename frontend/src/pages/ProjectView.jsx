@@ -13,16 +13,16 @@ import home from '../assets/home.svg'
 import plus from '../assets/plus.svg'
 
 export default function ProjectView({ menu, setMenu, warning, setWarning }) {
-  const { title } = useParams();
+  const { id, title } = useParams();
 
   const navigate = useNavigate();
 
   const handleCloseProject = () => { navigate("/"); }
 
   const [arrayListsTasks, setArrayListsTasks] = useState([
-    { id: uuidv4(), title: "Pendientes", tasks: [] },
-    { id: uuidv4(), title: "En Proceso", tasks: [] },
-    { id: uuidv4(), title: "Completadas", tasks: [] }
+    { project_id: id, id: uuidv4(), title: "Pendientes", tasks: [] },
+    { project_id: id, id: uuidv4(), title: "En Proceso", tasks: [] },
+    { project_id: id, id: uuidv4(), title: "Completadas", tasks: [] }
   ]);
 
   return (
@@ -33,7 +33,7 @@ export default function ProjectView({ menu, setMenu, warning, setWarning }) {
           <ButtonMenu 
               msg="Crear Lista" 
               icon={ plus }
-              onClick={() => abrirMenu(arrayListsTasks, setArrayListsTasks, setMenu, setWarning)}
+              onClick={() => abrirMenu(arrayListsTasks, id, setArrayListsTasks, setMenu, setWarning)}
           />
           <ButtonMenu 
               msg="Volver a Proyectos" 

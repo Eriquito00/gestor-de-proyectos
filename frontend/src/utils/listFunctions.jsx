@@ -7,13 +7,13 @@ import {
     compruebaTitulo
 } from "./warnsTest.jsx"
 
-export function abrirMenu (arrayListsTasks, setArrayListsTasks, setMenu, setWarning) {
+export function abrirMenu (arrayListsTasks, id, setArrayListsTasks, setMenu, setWarning) {
   setMenu(
     <Menu
       create={true}
       msgTitle={"Nombre de la lista"}
       titleLenght={15}
-      onCreate={(title) => crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, setWarning)}
+      onCreate={(title) => crearLista(title, id, arrayListsTasks, setArrayListsTasks, setMenu, setWarning)}
       onClose={() => setMenu(null)}
       buttonL={"Crear"}
       buttonR={"Cancelar"}
@@ -38,7 +38,7 @@ export function editMenu(titulo, id, setMenu, array, setWarning) {
   )
 }
 
-export function crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, setWarning) {
+export function crearLista(title, id, arrayListsTasks, setArrayListsTasks, setMenu, setWarning) {
   if (arrayListsTasks.length >= 8) {
     warning("Maximo de proyectos", "No puedes crear más de 12 proyectos", false, () => setWarning(null), null, setWarning);
     setMenu(null);
@@ -51,7 +51,7 @@ export function crearLista(title, arrayListsTasks, setArrayListsTasks, setMenu, 
 
   /* llamar a la funcion que envia el nombre de la lista a la bbdd */
 
-  const newList = { id: uuidv4(), title: title.trim(), tasks: [] }
+  const newList = { project_id: id, id: uuidv4(), title: title.trim(), tasks: [] }
 
   setArrayListsTasks([...arrayListsTasks, newList]);
 }
