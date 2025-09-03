@@ -1,29 +1,31 @@
 package model.classes;
 
 public class Task {
-    int task_id;
-    String title;
-    String description;
-    int list_id;
+    private String list_id;
+    private String task_id;
+    private String title;
+    private String description;
 
-    public Task(int task_id, String title, String description, int list_id){
+    public Task(String list_id, String task_id, String title, String description) {
+        this.list_id = list_id;
         this.task_id = task_id;
-        this.title = title;
+        this. title = title;
         this.description = description;
+    }
+
+    public String getList_id() {
+        return list_id;
+    }
+
+    public void setList_id(String list_id) {
         this.list_id = list_id;
     }
 
-    public Task(String title, String description, int list_id){
-        this.title = title;
-        this.description = description;
-        this.list_id = list_id;
-    }
-
-    public int getTask_id() {
+    public String getTask_id() {
         return task_id;
     }
 
-    public void setTask_id(int task_id) {
+    public void setTask_id(String task_id) {
         this.task_id = task_id;
     }
 
@@ -43,19 +45,11 @@ public class Task {
         this.description = description;
     }
 
-    public int getList_id() {
-        return list_id;
-    }
-
-    public void setList_id(int list_id) {
-        this.list_id = list_id;
-    }
-
     @Override
     public String toString() {
-        return "Task_id: " + task_id + "\n" +
+        return "List_id: " + list_id + "\n" +
+                "Task_id: " + task_id + "\n" +
                 "Title: " + title + "\n" +
-                "Description: " + description + "\n" +
-                "List_id: " + list_id;
+                "Description: " + description;
     }
 }

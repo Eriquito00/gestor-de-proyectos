@@ -1,26 +1,21 @@
 package model.classes;
 
 public class Project {
-    int project_id;
-    String title;
-    String description;
+    private String  project_id;
+    private String title;
+    private String description;
 
-    public Project(int project_id, String title, String description){
+    public Project(String project_id, String title, String description){
         this.project_id = project_id;
         this.title = title;
         this.description = description;
     }
 
-    public Project(String title, String description){
-        this.title = title;
-        this.description = description;
-    }
-
-    public int getProject_id() {
+    public String getProject_id() {
         return project_id;
     }
 
-    public void setProject_id(int project_id) {
+    public void setProject_id(String project_id) {
         this.project_id = project_id;
     }
 

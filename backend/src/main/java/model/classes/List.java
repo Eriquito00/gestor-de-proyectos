@@ -1,26 +1,29 @@
 package model.classes;
 
 public class List {
-    int list_id;
-    String title;
-    int project_id;
+    private String project_id;
+    private String list_id;
+    private String title;
 
-    public List(int list_id_id, String title, int project_id){
-        this.list_id = list_id_id;
+    public List(String project_id, String list_id, String title){
+        this.project_id = project_id;
+        this.list_id = list_id;
         this.title = title;
+    }
+
+    public String getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(String project_id) {
         this.project_id = project_id;
     }
 
-    public List(String title, int project_id){
-        this.title = title;
-        this.project_id = project_id;
-    }
-
-    public int getList_id() {
+    public String getList_id() {
         return list_id;
     }
 
-    public void setList_id(int list_id) {
+    public void setList_id(String list_id) {
         this.list_id = list_id;
     }
 
@@ -32,18 +35,10 @@ public class List {
         this.title = title;
     }
 
-    public int getProject_id() {
-        return project_id;
-    }
-
-    public void setProject_id(int project_id) {
-        this.project_id = project_id;
-    }
-
     @Override
     public String toString() {
-        return "List_id: " + list_id + "\n" +
-                "Title: " + title + "\n" +
-                "Project_id: " + project_id;
+        return "Project_id: " + project_id + "\n" +
+                "List_id: " + list_id + "\n" +
+                "Title: " + title;
     }
 }

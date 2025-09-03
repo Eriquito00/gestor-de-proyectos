@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLiteConnection {
-    public static Connection sqliteConnection(String url) throws SQLException {
+    public static Connection sqliteConnection() throws SQLException {
         try {
-            return DriverManager.getConnection("jdbc:sqlite:" + url);
+            return DriverManager.getConnection("jdbc:sqlite:bbdd/database.db");
         } catch (SQLException e) {
             throw new SQLException(e);
         }

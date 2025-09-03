@@ -4,6 +4,6 @@ import model.dao.DAO;
 
 import model.classes.Project;
 
-public interface Project extends DAO<model.classes.Project> {
+public interface ProjectDAO extends DAO<Project> {
 
 }

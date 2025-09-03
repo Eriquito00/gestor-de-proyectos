@@ -3,10 +3,15 @@ package view;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class View {
     public static void viewMsg(String msg) {
         System.out.println(msg);
+    }
+
+    public static void showObjectsFromArray (ArrayList objects){
+        for (Object o : objects) viewMsg(o.toString() + "\n");
     }
 
     public static void executeSelect(ResultSet rs) throws SQLException {

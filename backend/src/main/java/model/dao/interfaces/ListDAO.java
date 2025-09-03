@@ -2,6 +2,8 @@ package model.dao.interfaces;
 
 import model.dao.DAO;
 
-public interface List extends DAO<List> {
+import model.classes.List;
+
+public interface ListDAO extends DAO<List> {
 
 }
