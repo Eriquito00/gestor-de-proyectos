@@ -4,14 +4,14 @@ DROP TABLE projects;
 
 CREATE TABLE projects (
 	project_id		CHAR(36),
-	title			VARCHAR(25) NOT NULL UNIQUE,
+	title			VARCHAR(25) NOT NULL,
 	description		VARCHAR(150),
 	CONSTRAINT pk_projects PRIMARY KEY (project_id)
 );
 
 CREATE TABLE lists (
 	list_id			CHAR(36),
-	title			VARCHAR(15) UNIQUE,
+	title			VARCHAR(15) NOT NULL,
 	project_id		CHAR(36),
 	CONSTRAINT pk_lists PRIMARY KEY (list_id),
 	CONSTRAINT fk_lists_projects FOREIGN KEY (project_id)
@@ -20,7 +20,7 @@ CREATE TABLE lists (
 
 CREATE TABLE tasks (
 	task_id			CHAR(36),
-	title			VARCHAR(15) NOT NULL UNIQUE,
+	title			VARCHAR(15) NOT NULL,
 	description		VARCHAR(150),
 	list_id			CHAR(36),
 	CONSTRAINT pk_tasks PRIMARY KEY (task_id),
