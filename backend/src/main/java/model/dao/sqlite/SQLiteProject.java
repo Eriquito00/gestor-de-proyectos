@@ -2,6 +2,8 @@ package model.dao.sqlite;
 
 import model.classes.Project;
 import model.dao.interfaces.ProjectDAO;
+import model.exceptions.EmptyTitle;
+import model.test.TestData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,13 +17,16 @@ public class SQLiteProject implements ProjectDAO {
     public SQLiteProject (Connection connection) { this.connection = connection; }
 
     @Override
-    public void create(Project object) throws SQLException {
+    public void create(Project object) throws SQLException, EmptyTitle {
+        TestData.nonTitleCheck(object.getTitle());
+        TestData.nonTitleCheck(object.getDescription());
+
         String input = "INSERT INTO projects(project_id, title, description) VALUES(?, ?, ?)";
         PreparedStatement pstmt = connection.prepareStatement(input);
 
         pstmt.setString(1,object.getProject_id());
-        pstmt.setString(2, object.getTitle());
-        pstmt.setString(3, object.getDescription());
+        pstmt.setString(2, object.getTitle().trim());
+        pstmt.setString(3, object.getDescription().trim());
 
         pstmt.execute();
     }
@@ -44,13 +49,16 @@ public class SQLiteProject implements ProjectDAO {
     }
 
     @Override
-    public void update(Project object, String... info) throws SQLException {
+    public void update(Project object, String... info) throws SQLException, EmptyTitle {
+        TestData.nonTitleCheck(info[0]);
+        TestData.nonTitleCheck(info[1]);
+
         String update = "UPDATE projects SET title = ?, description = ? WHERE project_id = ?";
 
         PreparedStatement pstmt = connection.prepareStatement(update);
 
-        pstmt.setString(1, info[0]);
-        pstmt.setString(2, info[1]);
+        pstmt.setString(1, info[0].trim());
+        pstmt.setString(2, info[1].trim());
         pstmt.setString(3, object.getProject_id());
 
         pstmt.execute();
